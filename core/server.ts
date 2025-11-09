@@ -46,14 +46,14 @@ function isValidState(state: string): boolean {
 // App watcher endpoint
 app.post("/app-watcher", async (req, res) => {
   try {
-    const { app_name, window_title } = req.body;
+    const { next } = req.body;
 
     // Validate input
-    if (!app_name || typeof app_name !== "string") {
+    if (!next.app || typeof next.app !== "string") {
       return res.status(400).json({ error: "Invalid app_name" });
     }
 
-    if (window_title !== undefined && typeof window_title !== "string") {
+    if (next.title !== undefined && typeof next.title !== "string") {
       return res.status(400).json({ error: "Invalid window_title" });
     }
 
@@ -79,7 +79,7 @@ app.post("/app-watcher", async (req, res) => {
       | undefined;
 
     // If there's an active session for a different app, close it
-    if (lastSession && lastSession.app_name !== app_name) {
+    if (lastSession && lastSession.app_name !== next.app) {
       db.prepare(
         `
         UPDATE app_sessions
@@ -90,26 +90,23 @@ app.post("/app-watcher", async (req, res) => {
     }
 
     // If the app is different from the last session, or no active session exists, start a new one
-    if (!lastSession || lastSession.app_name !== app_name) {
+    if (!lastSession || lastSession.app_name !== next.app) {
       db.prepare(
         `
         INSERT INTO app_sessions (app_name, window_title, start_time)
         VALUES (?, ?, ?)
       `,
-      ).run(app_name, window_title || null, now);
+      ).run(next.app, next.title || null, now);
     } else {
       // Same app is still active - optionally update window_title if it changed
-      if (
-        lastSession.window_title !== window_title &&
-        window_title !== undefined
-      ) {
+      if (lastSession.window_title !== next.title && next.title !== undefined) {
         db.prepare(
           `
           UPDATE app_sessions
           SET window_title = ?
           WHERE id = ?
         `,
-        ).run(window_title, lastSession.id);
+        ).run(next.title, lastSession.id);
       }
     }
 
