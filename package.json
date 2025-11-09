@@ -2,16 +2,19 @@
   "name": "eyedesk",
   "version": "1.0.0",
   "description": "",
+  "module": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "node migration.mjs",
-    "dev:core": " concurrently \"tsc -w -p core/tsconfig.json\" \"nodemon  dist/core/server.js\""
+    "dev:server": " concurrently \"tsc -w -p core/tsconfig.json\" \"nodemon  dist/core/server.js\"",
+    "dev:eye-watcher": "nodemon core/activity-watcher.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "active-win": "8.2.1",
     "better-sqlite3": "^12.4.1",
     "express": "^5.1.0"
   },

@@ -9,9 +9,11 @@ import Database from "better-sqlite3";
 import { time } from "console";
 import express from "express";
 import { readFileSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { isUint16Array } from "util/types";
 
+// Get __dirname equivalent in ES modules
 const db = new Database("focus.db");
 const app = express();
 app.use(express.json());
@@ -46,6 +48,7 @@ function isValidState(state: string): boolean {
 // App watcher endpoint
 app.post("/app-watcher", async (req, res) => {
   try {
+    console.log("app-watcher", JSON.stringify(req.body));
     const { next } = req.body;
 
     // Validate input
@@ -120,26 +123,24 @@ app.post("/app-watcher", async (req, res) => {
 // Iris watcher endpoint
 app.post("/iris-watcher", async (req, res) => {
   try {
-    const { timestamp, duration, state } = req.body;
+    console.log("iris-watcher", JSON.stringify(req.body));
+    const { timestamp, status } = req.body;
 
     // Validate input
     if (!timestamp || !isValidTimestamp(timestamp)) {
       return res.status(400).json({ error: "Invalid timestamp" });
     }
 
-    if (typeof duration !== "number" || duration < 0) {
-      return res.status(400).json({ error: "Invalid duration" });
-    }
-
-    if (!state || !isValidState(state)) {
+    if (!status || !isValidState(status)) {
       return res
         .status(400)
         .json({ error: 'Invalid state. Must be "focused" or "unfocused"' });
     }
 
-    db.prepare(
-      "INSERT INTO iris_focus (timestamp, duration, state) VALUES (?, ?, ?)",
-    ).run(timestamp, duration, state);
+    db.prepare("INSERT INTO iris_focus (timestamp, state) VALUES (?, ?)").run(
+      timestamp,
+      status,
+    );
 
     res.json({ ok: true });
   } catch (err) {

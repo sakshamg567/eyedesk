@@ -3,10 +3,10 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "../dist/core",
-    "module": "Node16",
-    "resolveJsonModule": true,
+    "module": "CommonJS",
     "sourceMap": true
   },
+
   "include": ["**/*.ts"],
   "exclude": ["../frontend", "../node_modules"]
 }

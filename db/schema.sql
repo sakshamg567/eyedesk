@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS app_sessions (
 CREATE TABLE IF NOT EXISTS iris_focus (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   timestamp DATETIME NOT NULL,
-  duration INTEGER NOT NULL,
   state TEXT NOT NULL -- "focused" | "unfocused"
 );
 
