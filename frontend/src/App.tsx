@@ -1,7 +1,7 @@
-import { Dashboard } from "./components/Dashboard";
+import { HomeTabs } from "./components/HomeTabs";
 
 function App() {
-  return <Dashboard />;
+  return <HomeTabs />;
 }
 
 export default App;
