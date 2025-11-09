@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../dist/core",
+    "module": "Node16",
+    "resolveJsonModule": true,
+    "sourceMap": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["../frontend", "../node_modules"]
+}

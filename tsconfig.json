@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "moduleResolution": "node16",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "module": "Node16",
+    "jsx": "react-jsx"
+  },
+  "exclude": ["node_modules", "dist", "frontend"]
+}

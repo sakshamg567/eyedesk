@@ -1,0 +1,24 @@
+{
+  "name": "eyedesk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node migration.mjs",
+    "dev:core": " concurrently \"tsc -w -p core/tsconfig.json\" \"nodemon  dist/core/server.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.5",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3"
+  }
+}
